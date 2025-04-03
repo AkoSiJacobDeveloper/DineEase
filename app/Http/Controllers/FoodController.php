@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Category;
 use App\Models\Food;
 use Inertia\Inertia;
 
@@ -19,8 +19,22 @@ class FoodController extends Controller
     }
 
     public function showMenu() {
+        $categories = Category::all();
         return Inertia::render('WebPage/Menu', [
-            'foods' => Food::all()
+            'foods' => Food::all(),
+            'categories' => $categories
+
+        ]);
+    }
+
+    // mao ni ang mag show sa product with their specific category
+    public function showMenuWithCategory(Category $category){
+        $categories = Category::all();
+        $foods = $category->foods()->get();
+
+        return Inertia::render('WebPage/Menu', [
+            'foods' => $foods,
+            'categories' => $categories
         ]);
     }
 }

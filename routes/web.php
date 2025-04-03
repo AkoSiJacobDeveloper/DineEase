@@ -13,3 +13,4 @@ Route::get('/', function () {
 // })->name('Menu');
 
 Route::get('/menu', [FoodController::class,'showMenu'])->name('Menu');
+Route::get('/menu/{category}', [FoodController::class,'showMenuWithCategory']);
