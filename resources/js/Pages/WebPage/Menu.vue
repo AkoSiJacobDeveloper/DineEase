@@ -169,7 +169,7 @@ const goToLogin = () => {
                         <div class="flex justify-center items-center">
                             <div v-if="isLargeScreen" class="p-5 absolute left-6 flex justify-center btn-container rounded">
                                 <button @click="() => scrollLeft(category.id)" class="scroll-btn z-50">
-                                    <i class="fa-solid fa-caret-left text-3xl text-[#A31621]"></i>
+                                    <i class="fa-solid fa-caret-left text-2xl text-[#A31621]"></i>
                                 </button>
                             </div>
                         </div>
@@ -186,7 +186,7 @@ const goToLogin = () => {
                         <div class="flex justify-center items-center">
                             <div v-if="isLargeScreen" class="p-5 absolute right-6 flex justify-center btn-container rounded">
                                 <button @click="() => scrollRight(category.id)" class="scroll-btn z-50 ">
-                                    <i class="fa-solid fa-caret-right text-3xl text-[#A31621]"></i>
+                                    <i class="fa-solid fa-caret-right text-2xl text-[#A31621]"></i>
                                 </button>
                             </div>
                         </div>
@@ -197,11 +197,15 @@ const goToLogin = () => {
             <!-- If a category is selected, show only that one (no multiple headings) -->
             <section v-else>
                 <div class="flex gap-3">
-                    <!-- Button Left -->
-                    <button v-if="isLargeScreen"@click="scrollLefts" class="scroll-btn">
-                        <i class="fa-solid fa-caret-left text-3xl text-[#A31621]"></i>
-                    </button>
                     <div ref="scrollContainer" class="flex gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-2">
+                        <!-- Button Left -->
+                        <div class="flex justify-center items-center">
+                            <div v-if="isLargeScreen" class="p-5 absolute left-6 flex justify-center btn-container rounded">
+                                <button @click="scrollLefts" class="scroll-btn">
+                                    <i class="fa-solid fa-caret-left text-2xl text-[#A31621]"></i>
+                                </button>
+                            </div>
+                        </div>
                         <div v-for="food in props.foods" :key="food.id" class="min-w-[300px] max-w-[300px] h-96 flex-shrink-0 rounded shadow-md bg-white snap-start dish-container">
                             <img :src="food.image" :alt="food.name" class="w-full h-64 object-cover rounded-t-md mx-auto"/>
                             <div class="p-3 box-border">
@@ -211,10 +215,15 @@ const goToLogin = () => {
                                 <Order />
                             </div>
                         </div>
+                        <!-- Button Right -->
+                        <div class="flex justify-center items-center">
+                            <div v-if="isLargeScreen" class="p-5 absolute right-6 flex justify-center btn-container rounded">
+                                <button @click="scrollRights" class="scroll-btn">
+                                    <i class="fa-solid fa-caret-right text-2xl text-[#A31621]"></i>
+                                </button>
+                            </div>
+                        </div>
                     </div>
-                    <button v-if="isLargeScreen" @click="scrollRights" class="scroll-btn">
-                        <i class="fa-solid fa-caret-right text-3xl text-[#A31621]"></i>
-                    </button>
                 </div>
             </section>
 

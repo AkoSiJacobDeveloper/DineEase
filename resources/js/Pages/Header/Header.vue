@@ -40,7 +40,7 @@ const mobileLinks = ref([
 
 <template>
     <header class="w-full flex justify-between bg-[#A31621] text-white p-5 fixed z-50 mb-28  ">
-        <p class="font-bold text-[1.3em] sm:text-xl md:text-2xl lg:text-3xl font-[Poppins] flex justify-center items-center">Dine<span class="text-[#FFC72C]">Ease</span></p> 
+        <Link href="/menu" class="font-bold text-[1.3em] sm:text-xl md:text-2xl lg:text-3xl font-[Poppins] flex justify-center items-center">Dine<span class="text-[#FFC72C]">Ease</span></Link> 
         <nav class="flex justify-center items-center">
             <button @click="toggleMenu" class="md:hidden focus:outline-none">
                 <svg
