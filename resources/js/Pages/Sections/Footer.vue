@@ -55,6 +55,7 @@ const sections = ref([
                     <ul>
                         <li v-for="(link, linkIndex) in section.links" :key="linkIndex" class="font-[Rethink_Sans] text-xs lg:text-base">
                             <router-link :to="link.url">{{ link.name }}</router-link>
+                            <!-- <Link :to="link.url"> {{ link.name }}</Link> -->
                         </li>
                     </ul>
                 </div>

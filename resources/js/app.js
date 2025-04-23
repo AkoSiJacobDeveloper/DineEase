@@ -1,3 +1,4 @@
+import { Head, Link } from '@inertiajs/vue3';
 import { createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { createApp, h } from 'vue';
@@ -6,7 +7,6 @@ import '../css/app.css'
 import '@fortawesome/fontawesome-free/css/all.css';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
-
 
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,

@@ -47,7 +47,7 @@ import Submit from '../Buttons/Submit.vue';
                     <input class="border w-full p-3 rounded font-[Rethink_Sans]" type="text" name="fullname" id="fullname" placeholder="John Doe" required>
 
                     <label class="block font-[Poppins] font-bold" for="emailaddress">Email Address</label>
-                    <input class="border w-full p-3 rounded font-[Rethink_Sans]" type="email" name="emailaddress" id="emailaddress" placeholder="johndoe@gmail.com rounded" required>
+                    <input class="border w-full p-3 rounded font-[Rethink_Sans]" type="email" name="emailaddress" id="emailaddress" placeholder="johndoe@gmail.com" required>
 
                     <label class="block font-[Poppins] font-bold" for="message">Message</label>
                     <textarea class="p-3 rounded resize-none border w-full box-border h-32 lg:h-48" name="message" id="message" placeholder="Type your message here..."></textarea>

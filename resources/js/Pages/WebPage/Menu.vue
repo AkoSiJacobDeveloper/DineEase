@@ -1,5 +1,5 @@
 <script setup>
-import { defineProps, ref, onMounted, onUnmounted, reactive } from "vue";
+import { defineProps, ref, onMounted, onUnmounted, reactive, computed, watchEffect } from "vue";
 import { Link, usePage, router } from "@inertiajs/vue3";
 
 import App from "../MainLayout/App.vue";
@@ -92,18 +92,74 @@ onUnmounted(() => {
 const showModal = ref(false)
 const page = usePage()
 
-const isLoggedIn = !!page.props.auth.user // Check if user is logged in
+// const isLoggedIn = computed(() => !!usePage().props.auth.user)
 
-const handleOrderNow = () => {
-    if(!isLoggedIn) {
-        showModal.value = true
-    } else {
-        alert("User is Logged In")
+// const handleOrderNow = () => {
+//     if(!isLoggedIn) {
+//         showModal.value = true
+//     } else {
+//         alert("User is Logged In")
+//     }
+// }
+
+const isAuthenticated = computed(() => {
+    return !!page.props.auth.user
+})
+
+// Debugging
+watchEffect(() => {
+    console.log('Current auth state:', isAuthenticated.value ? 'LOGGED IN' : 'LOGGED OUT')
+})  
+
+// const handleOrderNow = () => {
+//     console.log('Button clicked - Auth state:', isAuthenticated.value)
+
+//     if (!isAuthenticated.value) {
+//         showModal.value = true
+//     } 
+// }
+
+const handleOrderNow = async (foodId) => {
+    try {
+        if (!isAuthenticated.value) {
+            showModal.value = true;
+            return;
+        } 
+
+        // First await the selection
+        const response = await router.post('/select-food', { 
+            food_id: foodId 
+        }, {
+            preserveState: true,
+            preserveScroll: true
+        });
+
+        // Then await the redirect
+        await router.visit('/order-summary', {
+            method: 'get',
+            preserveState: false,
+            preserveScroll: false
+        });
+
+    } catch (error) {
+        console.error('Order error:', error);
     }
-}
+};
+
+const orderNow = (foodId) => {
+  // This now just triggers the handleOrderNow logic
+    handleOrderNow(foodId);
+};
+
+// const orderNow = () => {
+//     if (isAuthenticated.value) {
+//         router.visit('/order-summary');
+//     } else {
+//         showModal.value = true;
+//     }
+// }
 
 const goToLogin = () => {
-    showModal.value = false;
     router.visit('/login');
 }
 </script>
@@ -116,7 +172,7 @@ const goToLogin = () => {
                 <form action="#">
                     <div class="flex items-center rounded custom-shadow">
                         <input
-                            class="w-full p-3 font-[Poppins] outline-0 bg-white search placeholder-[#A31621]"
+                            class="w-full p-3 font-[Poppins] outline-none bg-white search placeholder-[#A31621]"
                             type="text"
                             name="query"
                             placeholder="Search"
@@ -178,8 +234,10 @@ const goToLogin = () => {
                             <div class="p-3 box-border">
                                 <h1 class="text-base font-bold font-[Poppins]">{{ food.name }}</h1>
                                 <p class="text-xs text-gray-600 font-[Rethink_Sans]">{{ food.description }}</p>
-                                <h3 class="text-sm font-bold font-[Rethink_Sans]">₱{{ food.price }}</h3>
-                                <Order @order="handleOrderNow"/>
+                                <h3 class="text-sm font-bold font-[Rethink_Sans]">
+                                    <span class="currency-value">{{ food.price }}</span>
+                                </h3>
+                                <Order @order="handleOrderNow(food.id)" @click="orderNow(food.id)"/>
                             </div>
                         </div>
                         <!-- Button Right -->
@@ -244,7 +302,7 @@ const goToLogin = () => {
                             <h1 class="font-extrabold text-3xl font-[Poppins]">Oops! Hungry?</h1>
                             <p class="font-[Rethink_Sans] mb-3">You need to log in first before adding this delicious meal to your cart!</p>
                         </div>
-                        <button @click="goToLogin" class="bg-[#A31621] text-white px-4 py-3 rounded w-full mt-3 font-[Poppins] font-normal">Login</button>
+                        <button @click="goToLogin" class="bg-[#A31621] text-white px-4 py-3 rounded w-full mt-3 font-[Poppins] font-normal hover:cursor-pointer">Login</button>
                     </div>
                 </div>
             </Modal>
@@ -266,4 +324,4 @@ const goToLogin = () => {
                     </div>
             </section> -->
 
-            grid-cols-1 md:grid-cols-2 lg:grid-cols-7
+            <!-- grid-cols-1 md:grid-cols-2 lg:grid-cols-7 -->

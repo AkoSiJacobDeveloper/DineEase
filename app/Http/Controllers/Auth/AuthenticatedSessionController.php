@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Inertia\Response;
 
+use function Laravel\Prompts\alert;
+
 class AuthenticatedSessionController extends Controller
 {
     /**
@@ -33,7 +35,7 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        return redirect()->route('menu')->with('success', 'Login Successful!');
     }
 
     /**
@@ -47,6 +49,6 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect('menu')->with('success', 'Logout Successful!');
     }
 }

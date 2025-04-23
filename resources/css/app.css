@@ -1,4 +1,6 @@
 @import "tailwindcss";
+@import "flowbite/src/themes/default";
+@source "../node_modules/flowbite";
 
 * {
     box-sizing: border-box;
@@ -38,4 +40,25 @@
 
 .custom-checkbox {
     accent-color: #a31621;
+}
+
+.fade-enter-active, .fade-leave-active {
+    transition: all 0.3s ease;
+}
+
+.fade-enter-from, .fade-leave-to {
+    opacity: 0;
+    transform: translate(-50%, -10px);
+}
+
+.currency-value::before {
+    content: "₱";
+    font-family: 'Rethink_Sans', sans-serif;
+}
+
+.order-container, .reservation-container {
+    border-radius: 8px;
+    background: #ffffff;
+    box-shadow:  5px 5px 4px #c1c1c1,
+                -5px -5px 4px #ffffff;
 }
