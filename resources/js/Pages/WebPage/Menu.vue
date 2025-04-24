@@ -3,6 +3,7 @@ import { defineProps, ref, onMounted, onUnmounted, reactive, computed, watchEffe
 import { Link, usePage, router } from "@inertiajs/vue3";
 
 import App from "../MainLayout/App.vue";
+
 import Search from "../Buttons/Search.vue";
 import Order from "../Buttons/Order.vue";
 import Modal from "../Modal/Modal.vue";
@@ -270,7 +271,7 @@ const goToLogin = () => {
                                 <h3 class="text-base font-semibold font-[Poppins]">{{ food.name }}</h3>
                                 <p class="text-xs text-gray-600 font-[Rethink_Sans]">{{ food.description }}</p>
                                 <p class="text-sm font-bold font-[Rethink_Sans]">₱{{ food.price }}</p>
-                                <Order />
+                                <Order @order="handleOrderNow(food.id)" @click="orderNow(food.id)"/>
                             </div>
                         </div>
                         <!-- Button Right -->

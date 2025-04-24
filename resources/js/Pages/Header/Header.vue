@@ -34,7 +34,6 @@ const links = computed(() => {
 
 const mobileLinks = computed(() => [...links.value]);
 
-
 const isAuthenticated = computed(() => {
     return !!page.props.auth.user
 })
@@ -63,7 +62,7 @@ watchEffect(() => {
 
         setTimeout(() => {
             showToast.value = false;
-        }, 5000);
+        }, 3000);
     }
 });
 

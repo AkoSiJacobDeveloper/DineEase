@@ -66,7 +66,7 @@ const submit = () => {
                             <label class="font-[Rethink_Sans] text-xs" for="remember-me">I agree to the Terms & Conditions</label>
                         </div>
 
-                        <button type="submit" class="text-white p-3 rounded font-[Poppins] bg-[#A31621]" :disabled="form.processing">Signup</button>
+                        <button type="submit" class="text-white text-sm p-3 rounded font-[Poppins] bg-[#A31621]" :disabled="form.processing">Signup</button>
                     </div>
                 </form>
                 <div class="flex justify-center">

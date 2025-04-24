@@ -5,6 +5,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FoodController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ReservationController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AdminMenuController;
+use App\Http\Controllers\AdminOrderController;
 use Inertia\Inertia;
 
 Route::get('/', function () {
@@ -52,6 +55,12 @@ Route::get('/order-summary', [FoodController::class, 'showOrderSummary']);
 
 Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
 Route::get('/order/confirmation/{order}', [OrderController::class, 'showConfirmation'])->name('order.confirmation');
+
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+    Route::get('/menu', [AdminMenuController::class, 'index'])->name('admin.menu');
+    Route::get('/orders', [AdminOrderController::class, 'index'])->name('admin.orders');
+});
 
 // Route::get('/reservation', [ReservationController::class, 'create']);
 

@@ -50,7 +50,7 @@ const submit = () => {
                             </div>
                             <Link :href="route('password.request')" class="font-[Rethink_Sans] text-xs text-[#A31621]">Forgot Password</Link>
                         </div>
-                        <button class="text-white p-3 rounded mb-2 font-[Poppins] bg-[#A31621]" :disabled="form.processing">Login</button>
+                        <button class="text-white text-sm p-3 rounded mb-2 font-[Poppins] bg-[#A31621]" :disabled="form.processing">Login</button>
                     </div>
                 </form>
                 <div class="flex justify-center">
