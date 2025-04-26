@@ -17,6 +17,13 @@ class FoodController extends Controller
     // ]);
     // return response()->json(Food::all());
     
+    public function index() {
+        return inertia('AdminPage/AdminMenu', [
+            'foods' => Food::with('category')->get(),
+            'categories' => Category::all()
+        ]);
+    }
+    
     public function getFoods() {
         return response()->json(Food::all());
     }   

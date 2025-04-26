@@ -13,9 +13,28 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained();
-            $table->string('status')->default('pending');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            
+            // Simplified statuses
+            $table->enum('status', [
+                'pending',    // Order placed, awaiting confirmation
+                'confirmed',  // Order accepted by restaurant
+                'completed'   // Order fulfilled
+            ])->default('pending');
+            
+            // Essential financial columns
+            $table->decimal('subtotal', 10, 2);
+            $table->decimal('service_charge', 10, 2);
             $table->decimal('total', 10, 2);
+            
+            // Basic order info
+            $table->string('order_number')->unique();
+            $table->text('notes')->nullable();
+            
+            // Payment
+            $table->string('payment_method')->nullable();
+            
+            // Timestamps
             $table->timestamps();
         });
     }

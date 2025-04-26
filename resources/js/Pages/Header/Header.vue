@@ -66,6 +66,19 @@ watchEffect(() => {
     }
 });
 
+const currentUrl = computed(() => {
+    return usePage().url;
+});
+
+const isActiveLink = (href) => {
+    // Special case for home link
+    if (href === '/') {
+        return currentUrl.value === '/';
+    }
+    // For all other links
+    return currentUrl.value.startsWith(href);
+};
+
 </script>
 
 <template>
@@ -101,7 +114,7 @@ watchEffect(() => {
             <!--Desktop Links-->
             <ul class="hidden md:flex justify-center items-center gap-3">
                 <li v-for="(link, index) in links" :key="index" class="m-0">
-                    <Link :href="link.href" class="hover:border-b font-[Rethink_Sans]">{{ link.name }}</Link>
+                    <Link :href="link.href" class="hover:border-b font-[Rethink_Sans]" :class="{ 'border-b-2 border-white': isActiveLink(link.href) }">{{ link.name }}</Link>
                 </li>
                 <Login v-if="!page.props.auth.user" />
                 <form v-else @submit.prevent="logout">

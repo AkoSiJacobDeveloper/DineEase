@@ -5,9 +5,8 @@ import Logout from '../Buttons/Logout.vue';
 const page = usePage();
 
 const adminLinks = [
-    { name: "Home", href: "/"},
-    { name: "Menu", href: "/admin/menu"},
     { name: "Dashboard", href: "/admin/dashboard" },
+    { name: "Menu", href: "/admin/menu"},
     { name: "Orders", href: "/admin/orders" },
     { name: "About Us", href: "#" },
     { name: "Contact", href: "#" }

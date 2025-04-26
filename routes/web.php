@@ -56,12 +56,26 @@ Route::get('/order-summary', [FoodController::class, 'showOrderSummary']);
 Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
 Route::get('/order/confirmation/{order}', [OrderController::class, 'showConfirmation'])->name('order.confirmation');
 
-Route::middleware(['auth', 'role:admin'])->group(function () {
+Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
+    Route::get('/home', [AdminController::class, 'home'])->name('admin.home');
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
-    Route::get('/menu', [AdminMenuController::class, 'index'])->name('admin.menu');
-    Route::get('/orders', [AdminOrderController::class, 'index'])->name('admin.orders');
+    Route::get('/menu', [FoodController::class, 'index'])->name('admin.menu');
+    Route::get('/orders', [AdminOrderController::class, 'orders'])->name('admin.orders');
 });
 
+Route::post('/order', [OrderController::class, 'store']);
+Route::get('/orders/{order}/confirmation', [OrderController::class, 'confirmation'])->name('order.confirmation');
+
+// Route::middleware(['auth'])->group(function () {
+//     Route::post('/order/{order}/processing', [OrderController::class, 'markAsProcessing'])
+//         ->name('order.processing');
+        
+//     Route::post('/order/{order}/complete', [OrderController::class, 'markAsCompleted'])
+//         ->name('order.complete');
+        
+//     Route::post('/order/{order}/cancel', [OrderController::class, 'cancel'])
+//         ->name('order.cancel');
+// });
 // Route::get('/reservation', [ReservationController::class, 'create']);
 
 require __DIR__.'/auth.php';

@@ -9,9 +9,12 @@ use Inertia\Inertia;
 
 class AdminController extends Controller
 {
-    public function index () {
-        return Inertia::render('AdminPage/AdminMenu/Index', [
-            'foods' => Food::with('category')->latest()->get(),
+    public function home () {
+        return Inertia::render('AdminPage/AdminHome');
+    }
+    public function dashboard () {
+        return Inertia::render('AdminPage/Dashboard', [
+            // 'foods' => Food::with('category')->latest()->get(),
         ]);
     }
 }

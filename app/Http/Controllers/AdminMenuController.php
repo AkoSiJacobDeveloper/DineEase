@@ -9,7 +9,7 @@ use App\Models\Category;
 
 class AdminMenuController extends Controller
 {
-    public function index () {
+    public function menu () {
         return Inertia::render('AdminPage/AdminMenu', [
             'dishes' => Food::with('category')->get(),
             'categories' => Category::all()
