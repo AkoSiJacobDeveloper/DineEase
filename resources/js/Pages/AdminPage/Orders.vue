@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed } from 'vue';
 import Admin from '../MainLayout/Admin.vue';
+import EditModal from '../Modal/EditModal.vue';
 
 const props = defineProps({
     orders: Array
@@ -32,7 +33,7 @@ const formatText = (text) => {
                     <table class="w-full table-auto border-collapse min-w-full divide-y divide-gray-200">
                         <thead class="bg-gray-50">
                             <tr class="">
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Dish Name</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Dish</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Payment Method</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Order Number</th>
@@ -42,19 +43,34 @@ const formatText = (text) => {
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
                             <tr v-for="order in orders" :key="order.order_number" class="">
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-bold text-gray-500 font-[Poppins]">{{ order.dish_name || 'N/A' }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap flex">
+                                    <div class="flex items-center">
+                                        <div class="flex-shrink-0 h-10 w-10">
+                                            <img 
+                                                class="h-10 w-10 rounded-full object-cover"
+                                                :src="order.image" 
+                                                alt="Dish Image"
+                                                >
+                                        </div>
+                                        <div class="ml-4">
+                                            <div class="text-sm font-bold text-gray-900">{{ order.dish_name }}</div>
+                                            <div class="text-sm text-gray-500 line-clamp-1 font-[Rethink_Sans]"> {{ order.description }}</div>
+                                        </div>
+                                    </div>
+                                </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 font-[Rethink_Sans]">{{ formatText(order.payment_method) }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 font-[Rethink_Sans]">{{ formatCurrency(order.total) }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 font-[Rethink_Sans]">{{ order.order_number }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 font-[Rethink_Sans]">{{ formatText(order.status) }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 font-[Rethink_Sans]">
                                     <div class="flex gap-1">
-                                        <button class="bg-[#FFC72C] text-white p-2 rounded flex-1">
+                                        <button class="bg-[#FFC72C] cursor-pointer text-white p-2 rounded flex-1">
                                             <i class="fa-solid fa-circle-check mr-1"></i>
                                             Confirm</button>
-                                        <button class="bg-[#A31621] text-white p-2 rounded flex-1">
+                                        <button class="bg-[#A31621] hover:bg-[#8a1320] transition cursor-pointer text-white p-2 rounded flex-1">
                                             <i class="fa-solid fa-trash mr-1"></i>
-                                            Reject</button>
+                                            Reject
+                                        </button>
                                     </div>
                                 </td>
                             </tr>
@@ -66,5 +82,21 @@ const formatText = (text) => {
                 </div>
             </section>
         </main>
+
+        <div>
+            <EditModal v-if="isModalOpen" @close="closeModal">
+
+            </EditModal>
+        </div>
     </Admin>
 </template>
+
+<!-- <td class="px-4 py-2 font-[Rethink_Sans]">
+    <img
+        v-if="order.image"
+        :src="order.image"
+        alt="Dish Image"
+        class="w-16 h-16 object-cover rounded"
+    />
+    <span v-else>No image</span>
+</td> -->

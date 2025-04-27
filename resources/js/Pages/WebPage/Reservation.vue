@@ -91,19 +91,19 @@ function confirmOrder() {
                             <div class="p-2">
                                 <label for="table" class="font-[Poppins]">Choose an Available Table:</label>
                                 <select
-    id="table"
-    v-model="form.table_id"
-    class="rounded p-3 w-full border border-gray-300 focus:outline focus:outline-[#A31621] font-[Poppins]"
->
-    <option disabled :value="null">Select a table</option>
-    <option
-        v-for="table in availableTables"
-        :key="table.id"
-        :value="table.id"
-    >
-        {{ table.table_number }}
-    </option>
-</select>
+                                    id="table"
+                                    v-model="form.table_id"
+                                    class="rounded p-3 w-full border border-gray-300 focus:outline focus:outline-[#A31621] font-[Poppins]"
+                                    >
+                                    <option disabled :value="null">Select a table</option>
+                                    <option
+                                        v-for="table in availableTables"
+                                        :key="table.id"
+                                        :value="table.id"
+                                    >
+                                        {{ table.table_number }}
+                                    </option>
+                                </select>
                                 <p v-if="form.errors.table" class="text-red-500 text-sm mt-1">
                                     {{ form.errors.table }}
                                 </p>

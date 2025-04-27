@@ -15,11 +15,11 @@ const isModalOpen = ref(false);
 const paymentMethod = ref(null);
 
 const openOrderModal = () => {
-  isModalOpen.value = true;
+    isModalOpen.value = true;
 };
 
 const closeModal = () => {
-  isModalOpen.value = false;
+    isModalOpen.value = false;
 };
 
 // const submitOrder = () => {

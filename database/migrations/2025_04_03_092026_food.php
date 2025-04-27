@@ -14,14 +14,12 @@ return new class extends Migration
         Schema::create('foods', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->bigInteger('category_id')->unsigned();
+            $table->foreignId('category_id')->constrained()->onDelete('cascade');
             $table->text('description')->nullable();
             $table->decimal('price', 8, 2);
             $table->string('image')->nullable();
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
-
-            $table->foreign('category_id')->references('id')->on('categories');
-
         });
     }
 

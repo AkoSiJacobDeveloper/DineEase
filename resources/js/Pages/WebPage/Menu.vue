@@ -1,12 +1,10 @@
 <script setup>
-import { defineProps, ref, onMounted, onUnmounted, reactive, computed, watchEffect } from "vue";
-import { Link, usePage, router } from "@inertiajs/vue3";
-
-import App from "../MainLayout/App.vue";
-
-import Search from "../Buttons/Search.vue";
-import Order from "../Buttons/Order.vue";
-import Modal from "../Modal/Modal.vue";
+import { defineProps, ref, onMounted, onUnmounted, reactive, computed, watchEffect } from 'vue';
+import { Link, usePage, router } from '@inertiajs/vue3';
+import App from '../MainLayout/App.vue';
+import Search from '../Buttons/Search.vue';
+import Order from '../Buttons/Order.vue';
+import Modal from '../Modal/Modal.vue';
 
 const props = defineProps({
     categories: {
@@ -24,145 +22,115 @@ const props = defineProps({
 });
 
 const headings = ref([
-    { headlines: "Main Course" },
-    { headlines: "Appetizers" },
-    { headlines: "Side Dish" },
-    { headlines: "Salads" },
-    { headlines: "Soups" },
-    { headlines: "Desserts" },
-    { headlines: "Beverages" },
+    { headlines: 'Main Course' },
+    { headlines: 'Appetizers' },
+    { headlines: 'Side Dish' },
+    { headlines: 'Salads' },
+    { headlines: 'Soups' },
+    { headlines: 'Desserts' },
+    { headlines: 'Beverages' },
 ]);
 
 const categories = ref([
-    { id: 1, name: "Main Course", details: "Hearty and satisfying dishes crafted to be the centerpiece of your meal, featuring rich flavors and wholesome ingredients. " },
-])
+    { id: 1, name: 'Main Course', details: 'Hearty and satisfying dishes crafted to be the centerpiece of your meal, featuring rich flavors and wholesome ingredients.' },
+]);
 
-// Get the category name from ID
 const getCategoryName = (categoryId) => {
-    const category = props.categories.find(categories => categories.id === categoryId);
+    const category = props.categories.find(c => c.id === categoryId);
     return category ? category.name.toLowerCase() : 'Dishes';
-}
+};
 
-console.log(props.categories);
+const formatPrice = (price) => {
+    if (price === null || price === undefined) return '0.00';
+    const num = typeof price === 'string' ? parseFloat(price) : price;
+    return isNaN(num) ? '0.00' : num.toFixed(2);
+};
 
-// Left and Right scroll buttons
-const isLargeScreen = ref(false)
-
-const scrollContainers = reactive({})
-const scrollContainer = ref(null)
+const isLargeScreen = ref(false);
+const scrollContainers = reactive({});
+const scrollContainer = ref(null);
 
 const updateScreenSize = () => {
-    isLargeScreen.value = window.innerWidth > 768
-}
+    isLargeScreen.value = window.innerWidth > 768;
+};
 
 const scrollLeft = (categoryId) => {
-    const container = scrollContainers[categoryId]
+    const container = scrollContainers[categoryId];
     if (container) {
-        container.scrollBy({ left: -300, behavior: 'smooth' })
+        container.scrollBy({ left: -300, behavior: 'smooth' });
     }
-}
+};
 
 const scrollRight = (categoryId) => {
-    const container = scrollContainers[categoryId]
+    const container = scrollContainers[categoryId];
     if (container) {
-        container.scrollBy({ left: 300, behavior: 'smooth' })
+        container.scrollBy({ left: 300, behavior: 'smooth' });
     }
-}
+};
 
 const scrollLefts = () => {
-    if(scrollContainer.value) {
-        scrollContainer.value.scrollBy({ left: -300, behavior: 'smooth' })
+    if (scrollContainer.value) {
+        scrollContainer.value.scrollBy({ left: -300, behavior: 'smooth' });
     }
-}
+};
 
 const scrollRights = () => {
-    if(scrollContainer.value) {
-        scrollContainer.value.scrollBy({ left: 300, behavior: 'smooth' })
+    if (scrollContainer.value) {
+        scrollContainer.value.scrollBy({ left: 300, behavior: 'smooth' });
     }
-}
+};
 
 onMounted(() => {
-    updateScreenSize()
-    window.addEventListener('resize', updateScreenSize)
-})
+    updateScreenSize();
+    window.addEventListener('resize', updateScreenSize);
+});
 
 onUnmounted(() => {
-    window.removeEventListener('resize', updateScreenSize)
-})
+    window.removeEventListener('resize', updateScreenSize);
+});
 
-const showModal = ref(false)
-const page = usePage()
-
-// const isLoggedIn = computed(() => !!usePage().props.auth.user)
-
-// const handleOrderNow = () => {
-//     if(!isLoggedIn) {
-//         showModal.value = true
-//     } else {
-//         alert("User is Logged In")
-//     }
-// }
+const showModal = ref(false);
+const page = usePage();
 
 const isAuthenticated = computed(() => {
-    return !!page.props.auth.user
-})
+    return !!page.props.auth.user;
+});
 
-// Debugging
 watchEffect(() => {
-    console.log('Current auth state:', isAuthenticated.value ? 'LOGGED IN' : 'LOGGED OUT')
-})  
-
-// const handleOrderNow = () => {
-//     console.log('Button clicked - Auth state:', isAuthenticated.value)
-
-//     if (!isAuthenticated.value) {
-//         showModal.value = true
-//     } 
-// }
+    console.log('Current auth state:', isAuthenticated.value ? 'LOGGED IN' : 'LOGGED OUT');
+});
 
 const handleOrderNow = async (foodId) => {
     try {
         if (!isAuthenticated.value) {
             showModal.value = true;
             return;
-        } 
+        }
 
-        // First await the selection
-        const response = await router.post('/select-food', { 
+        await router.post('/select-food', { 
             food_id: foodId 
         }, {
             preserveState: true,
             preserveScroll: true
         });
 
-        // Then await the redirect
         await router.visit('/order-summary', {
             method: 'get',
             preserveState: false,
             preserveScroll: false
         });
-
     } catch (error) {
         console.error('Order error:', error);
     }
 };
 
 const orderNow = (foodId) => {
-  // This now just triggers the handleOrderNow logic
     handleOrderNow(foodId);
 };
 
-// const orderNow = () => {
-//     if (isAuthenticated.value) {
-//         router.visit('/order-summary');
-//     } else {
-//         showModal.value = true;
-//     }
-// }
-
 const goToLogin = () => {
     router.visit('/login');
-}
+};
 </script>
 
 <template>
@@ -187,26 +155,21 @@ const goToLogin = () => {
             <section class="w-full">
                 <p class="m-0 font-[Poppins] text-xs">Filter</p>
                 <div class="flex gap-2 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-2">
-                    <!-- "All" Button -->
                     <Link
                         href="/menu"
                         :class="[
                             'border p-3 min-w-[120px] md:flex-1 rounded font-[Rethink_Sans] hover:bg-[#A31621] hover:text-white hover:border-white transition duration-300 ease-in-out text-center',
-                            // if 'All' is selected make the bg-color change 
                             !props.currentCategory ? 'bg-[#A31621] text-white' : 'bg-white'
                         ]"
                     >
                         All
                     </Link>
-
-                    <!-- Category Buttons -->
                     <Link
                         v-for="category in props.categories"
                         :key="category.id"
                         :href="'/menu/' + category.id"
                         :class="[
                             'border p-3 min-w-[120px] md:flex-1 rounded font-[Rethink_Sans] hover:bg-[#A31621] hover:text-white hover:border-white transition duration-300 ease-in-out text-center',
-                            // if MainCourse is selected or bsag asa nila depende sa category id, mo change ang bg-color sa button 
                             props.currentCategory == category.id ? 'bg-[#A31621] text-white' : 'bg-white'
                         ]"
                     >
@@ -216,13 +179,11 @@ const goToLogin = () => {
             </section>
 
             <!-- Food Items -->
-            <!-- If "All" is selected, show grouped horizontal lists -->
-            <section v-if="!props.currentCategory" v-for="category in props.categories" :key="category.id" class="space-y-3" >
+            <section v-if="!props.currentCategory" v-for="category in props.categories" :key="category.id" class="space-y-3">
                 <h2 class="text-4xl font-extrabold font-[Dancing_Script] m-0">{{ category.name }}</h2>
                 <p class="font-[Rethink_Sans]">{{ category.description }}</p>
                 <div class="flex gap-3">
                     <div :ref="el => scrollContainers[category.id] = el" class="flex gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-2">
-                        <!-- Button Left -->
                         <div class="flex justify-center items-center">
                             <div v-if="isLargeScreen" class="p-5 absolute left-6 flex justify-center btn-container rounded">
                                 <button @click="() => scrollLeft(category.id)" class="scroll-btn z-50">
@@ -236,15 +197,14 @@ const goToLogin = () => {
                                 <h1 class="text-base font-bold font-[Poppins]">{{ food.name }}</h1>
                                 <p class="text-xs text-gray-600 font-[Rethink_Sans]">{{ food.description }}</p>
                                 <h3 class="text-sm font-bold font-[Rethink_Sans]">
-                                    <span class="currency-value">{{ food.price }}</span>
+                                    ₱{{ formatPrice(food.price) }}
                                 </h3>
                                 <Order @order="handleOrderNow(food.id)" @click="orderNow(food.id)"/>
                             </div>
                         </div>
-                        <!-- Button Right -->
                         <div class="flex justify-center items-center">
                             <div v-if="isLargeScreen" class="p-5 absolute right-6 flex justify-center btn-container rounded">
-                                <button @click="() => scrollRight(category.id)" class="scroll-btn z-50 ">
+                                <button @click="() => scrollRight(category.id)" class="scroll-btn z-50">
                                     <i class="fa-solid fa-caret-right text-2xl text-[#A31621]"></i>
                                 </button>
                             </div>
@@ -253,11 +213,9 @@ const goToLogin = () => {
                 </div>
             </section>
 
-            <!-- If a category is selected, show only that one (no multiple headings) -->
             <section v-else>
                 <div class="flex gap-3">
                     <div ref="scrollContainer" class="flex gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-2">
-                        <!-- Button Left -->
                         <div class="flex justify-center items-center">
                             <div v-if="isLargeScreen" class="p-5 absolute left-6 flex justify-center btn-container rounded">
                                 <button @click="scrollLefts" class="scroll-btn">
@@ -270,11 +228,10 @@ const goToLogin = () => {
                             <div class="p-3 box-border">
                                 <h3 class="text-base font-semibold font-[Poppins]">{{ food.name }}</h3>
                                 <p class="text-xs text-gray-600 font-[Rethink_Sans]">{{ food.description }}</p>
-                                <p class="text-sm font-bold font-[Rethink_Sans]">₱{{ food.price }}</p>
+                                <p class="text-sm font-bold font-[Rethink_Sans]">₱{{ formatPrice(food.price) }}</p>
                                 <Order @order="handleOrderNow(food.id)" @click="orderNow(food.id)"/>
                             </div>
                         </div>
-                        <!-- Button Right -->
                         <div class="flex justify-center items-center">
                             <div v-if="isLargeScreen" class="p-5 absolute right-6 flex justify-center btn-container rounded">
                                 <button @click="scrollRights" class="scroll-btn">
@@ -286,14 +243,13 @@ const goToLogin = () => {
                 </div>
             </section>
 
-            <!-- Friendly Message to display when user didnt see a dish in the category or filter button they clicked. -->
             <div v-if="props.foods.length === 0" class="text-center">
                 <p class="text-gray-500 text-lg font-[Poppins]">
                     No {{ getCategoryName(props.currentCategory) }} Found!
                 </p>
             </div>
         </main>
-        
+
         <div>
             <Modal v-if="showModal" @close="showModal = false" @goToLogin="goToLogin">
                 <div class="p-4 flex flex-col justify-center">
@@ -310,19 +266,3 @@ const goToLogin = () => {
         </div>
     </App>
 </template>
-
-<!-- <section>
-                <h1>Menu</h1>
-                    <div v-if="foods.length > 0">
-                    <div v-for="food in foods" :key="food.id">
-                        <h2>{{ food.name }}</h2>
-                        <p>{{ food.description }}</p>
-                        <p>Price: ₱{{ food.price }}</p>
-                    </div>
-                    </div>
-                    <div v-else>
-                    <p>No food available.</p>
-                    </div>
-            </section> -->
-
-            <!-- grid-cols-1 md:grid-cols-2 lg:grid-cols-7 -->
