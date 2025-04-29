@@ -1,5 +1,5 @@
 <script setup>
-import { defineProps, ref, onMounted, onUnmounted, reactive, computed, watchEffect } from 'vue';
+import { defineProps, ref, onMounted, onUnmounted, reactive, computed } from 'vue';
 import { Link, usePage, router } from '@inertiajs/vue3';
 import App from '../MainLayout/App.vue';
 import Search from '../Buttons/Search.vue';
@@ -70,13 +70,13 @@ const scrollRight = (categoryId) => {
 
 const scrollLefts = () => {
     if (scrollContainer.value) {
-        scrollContainer.value.scrollBy({ left: -300, behavior: 'smooth' });
+        scrollContainer.scrollBy({ left: -300, behavior: 'smooth' });
     }
 };
 
 const scrollRights = () => {
     if (scrollContainer.value) {
-        scrollContainer.value.scrollBy({ left: 300, behavior: 'smooth' });
+        scrollContainer.scrollBy({ left: 300, behavior: 'smooth' });
     }
 };
 
@@ -93,39 +93,23 @@ const showModal = ref(false);
 const page = usePage();
 
 const isAuthenticated = computed(() => {
-    return !!page.props.auth.user;
+    return !!page.props.auth?.user;
 });
 
-watchEffect(() => {
-    console.log('Current auth state:', isAuthenticated.value ? 'LOGGED IN' : 'LOGGED OUT');
-});
-
-const handleOrderNow = async (foodId) => {
-    try {
-        if (!isAuthenticated.value) {
-            showModal.value = true;
-            return;
-        }
-
-        await router.post('/select-food', { 
-            food_id: foodId 
-        }, {
-            preserveState: true,
-            preserveScroll: true
-        });
-
-        await router.visit('/order-summary', {
-            method: 'get',
-            preserveState: false,
-            preserveScroll: false
-        });
-    } catch (error) {
-        console.error('Order error:', error);
+const handleOrderNow = (foodId) => {
+    if (!isAuthenticated.value) {
+        showModal.value = true;
+        return;
     }
-};
 
-const orderNow = (foodId) => {
-    handleOrderNow(foodId);
+    router.visit(route('order.show', { food: foodId }), {
+        method: 'get',
+        preserveState: true,
+        preserveScroll: true,
+        onError: (error) => {
+            console.error('Navigation error:', error);
+        }
+    });
 };
 
 const goToLogin = () => {
@@ -199,7 +183,7 @@ const goToLogin = () => {
                                 <h3 class="text-sm font-bold font-[Rethink_Sans]">
                                     ₱{{ formatPrice(food.price) }}
                                 </h3>
-                                <Order @order="handleOrderNow(food.id)" @click="orderNow(food.id)"/>
+                                <Order @click="handleOrderNow(food.id)" />
                             </div>
                         </div>
                         <div class="flex justify-center items-center">
@@ -229,7 +213,7 @@ const goToLogin = () => {
                                 <h3 class="text-base font-semibold font-[Poppins]">{{ food.name }}</h3>
                                 <p class="text-xs text-gray-600 font-[Rethink_Sans]">{{ food.description }}</p>
                                 <p class="text-sm font-bold font-[Rethink_Sans]">₱{{ formatPrice(food.price) }}</p>
-                                <Order @order="handleOrderNow(food.id)" @click="orderNow(food.id)"/>
+                                <Order @click="handleOrderNow(food.id)" />
                             </div>
                         </div>
                         <div class="flex justify-center items-center">

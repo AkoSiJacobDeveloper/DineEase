@@ -19,7 +19,19 @@ class Order extends Model
         self::STATUS_COMPLETED => 'Completed',
         self::STATUS_CANCELLED => 'Cancelled',
     ];
-    protected $fillable = ['user_id', 'status', 'subtotal', 'service_charge', 'total', 'payment_method', 'order_number', 'dish_name'];
+
+    protected $fillable = [
+        'user_id',
+        'food_id',
+        'quantity',
+        'subtotal',
+        'service_charge',
+        'total',
+        'payment_method',
+        'status',
+        'order_number',
+        'notes'
+    ];
     
     public function items(): HasMany
     {
@@ -29,5 +41,10 @@ class Order extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+    
+    public function food(): BelongsTo
+    {
+        return $this->belongsTo(Food::class, 'food_id');
     }
 }

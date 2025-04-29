@@ -4,6 +4,7 @@
 
 * {
     box-sizing: border-box;
+    cursor: pointer;
 }
 
 .scrollbar-hide::-webkit-scrollbar {

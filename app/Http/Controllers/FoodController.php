@@ -12,41 +12,26 @@ class FoodController extends Controller
     public function showMenu()
     {
         return Inertia::render('WebPage/Menu', [
-            'foods' => Food::select('id', 'name', 'description', 'price', 'image', 'category_id')
-                ->where('is_active', true)
-                ->with(['category' => function ($query) {
-                    $query->select('id', 'name', 'description');
-                }])
-                ->get(),
-            'categories' => Category::select('id', 'name', 'description')->get(),
-            'currentCategory' => null
+            'foods' => Food::select('id', 'name', 'description', 'price', 'image', 'category_id')->get(),
+            'categories' => Category::select('id', 'name', 'description')->get()
         ]);
     }
 
     public function showMenuWithCategory($category)
     {
         return Inertia::render('WebPage/Menu', [
-            'foods' => Food::select('id', 'name', 'description', 'price', 'image', 'category_id')
-                ->where('is_active', true)
-                ->where('category_id', $category)
-                ->with(['category' => function ($query) {
-                    $query->select('id', 'name', 'description');
-                }])
-                ->get(),
+            'foods' => Food::where('category_id', $category)->select('id', 'name', 'description', 'price', 'image', 'category_id')->get(),
             'categories' => Category::select('id', 'name', 'description')->get(),
-            'currentCategory' => (int) $category
+            'currentCategory' => $category
         ]);
     }
 
     public function selectFood(Request $request)
     {
-        $request->validate(['food_id' => 'required|exists:foods,id']);
-        // Store food_id in session or cart logic
-        return response()->json(['message' => 'Food selected']);
-    }
+        $validated = $request->validate([
+            'food_id' => 'required|exists:foods,id'
+        ]);
 
-    public function showOrderSummary()
-    {
-        return Inertia::render('WebPage/OrderSummary');
+        return Inertia::location(route('order.show', ['food' => $validated['food_id']]));
     }
 }

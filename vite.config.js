@@ -12,4 +12,11 @@ export default defineConfig({
         }),
         vue(),
     ],
+    resolve: {
+        alias: {
+            '@': '/resources/js',
+            // Ensure Inertia resolves WebPage subdirectory
+            'Pages': '/resources/js/Pages',
+        },
+    },
 });
