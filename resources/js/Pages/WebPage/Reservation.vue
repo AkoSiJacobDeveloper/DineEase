@@ -131,7 +131,7 @@ function confirmOrder() {
                             class="p-3 bg-[#A31621] text-white rounded hover:bg-[#8a1020] font-[Rethink_Sans] disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                             <span v-if="form.processing">Processing...</span>
-                            <span v-else>Confirm Order</span>
+                            <span v-else>Reserve Table</span>
                         </button>
                     </div>
                 </div>

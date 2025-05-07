@@ -49,7 +49,7 @@ class OrderController extends Controller
     Log::info('OrderController::store input:', $request->all());
 
     $validated = $request->validate([
-        'food_id' => 'required|exists:foods,id', // Updated to 'foods'
+        'food_id' => 'required|exists:foods,id', // Correct table name
         'quantity' => 'required|integer|min:1',
         'price' => 'required|numeric|min:0',
         'payment_method' => 'required|in:gcash,paypal,cash'
