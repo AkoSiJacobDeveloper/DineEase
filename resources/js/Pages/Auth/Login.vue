@@ -52,7 +52,7 @@ const submit = () => {
 
                             <div class="flex justify-between mb-10">
                                 <div class="flex gap-1">
-                                    <input v-model="form.remember" type="checkbox" id="remember-me" name="remember-me" value="remember-me" class="custom-checkbox" required>
+                                    <input v-model="form.remember" type="checkbox" id="remember-me" name="remember-me" value="remember-me" class="custom-checkbox">
                                     <label class="font-[Rethink_Sans] text-xs" for="remember-me">Remember me</label>
                                 </div>
                                 <Link :href="route('password.request')" class="font-[Rethink_Sans] text-xs text-[#A31621]">Forgot Password</Link>

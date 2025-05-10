@@ -53,4 +53,20 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/admin/orders/{order}/reject', [AdminOrderController::class, 'reject'])->name('admin.orders.reject');
 });
 
+Route::get('/cart', function() {
+    return Inertia::render('WebPage/Cart');
+})->name('Cart');
+
+Route::get('/about', function() {
+    return Inertia::render('WebPage/About');
+})->name('About');
+
+Route::get('/contact', function() {
+    return Inertia::render('WebPage/Contact');
+})->name('Contact');
+
+Route::get('/admin/about', function() {
+    return Inertia::render('AdminPage/AdminAbout');
+})->name('AdminAbout');
+
 require __DIR__.'/auth.php';

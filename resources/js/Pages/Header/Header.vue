@@ -17,8 +17,8 @@ const toastMessage = ref('')
 const commonLinks = [
     { name: "Home", href: "/" },
     { name: "Menu", href: "/menu" },
-    { name: "About Us", href: "#" },
-    { name: "Contact", href: "#" },
+    { name: "About Us", href: "/about" },
+    { name: "Contact", href: "/contact" },
 ];
 
 const links = computed(() => {

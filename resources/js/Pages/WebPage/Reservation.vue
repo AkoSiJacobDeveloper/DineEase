@@ -50,9 +50,14 @@ function confirmOrder() {
 
 <template>
     <AppLayout> <!-- Changed from <App> to <AppLayout> -->
-        <main class="px-5 pt-[6rem] h-auto lg:h-screen py-5">
-            <section class="p-10">
-                <div class="reservation-container">
+        <main class="px-5 pt-[6rem] h-screen lg:h-screen py-5">
+            <div class="bg-white shadow-sm p-4 rounded mb-4">
+                <div class="flex justify-between items-center">
+                    <h1 class="text-2xl font-bold text-gray-800 font-[Poppins]">Reservation</h1>
+                </div>
+            </div>
+            <section class="">
+                <div class="reservation-container shadow-sm bg-white rounded">
                     <!-- Removed any problematic comments -->
                     <div class="p-7">
                         <p class="text-lg lg:text-5xl font-extrabold font-[Dancing_Script]">

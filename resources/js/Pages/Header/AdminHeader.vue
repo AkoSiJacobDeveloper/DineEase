@@ -8,8 +8,7 @@ const adminLinks = [
     { name: "Dashboard", href: "/admin/dashboard" },
     { name: "Menu", href: "/admin/menu" },
     { name: "Orders", href: "/admin/orders" },
-    { name: "About Us", href: "#" },
-    { name: "Contact", href: "#" }
+    { name: "About Us", href: "/admin/about" }
 ];
 </script>
 

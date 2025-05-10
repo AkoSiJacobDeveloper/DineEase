@@ -11,18 +11,34 @@ class FoodController extends Controller
 {
     public function showMenu()
     {
+        $categories = Category::select('id', 'name', 'description')->get();
+        $foods = Food::select('id', 'name', 'description', 'price', 'image', 'category_id')
+            ->with(['category' => function ($query) {
+                $query->select('id', 'name');
+            }])
+            ->paginate(6); // 6 dishes per page
+
         return Inertia::render('WebPage/Menu', [
-            'foods' => Food::select('id', 'name', 'description', 'price', 'image', 'category_id')->get(),
-            'categories' => Category::select('id', 'name', 'description')->get()
+            'categories' => $categories,
+            'foods' => $foods,
+            'currentCategory' => null,
         ]);
     }
 
     public function showMenuWithCategory($category)
     {
+        $categories = Category::select('id', 'name', 'description')->get();
+        $foods = Food::select('id', 'name', 'description', 'price', 'image', 'category_id')
+            ->where('category_id', $category)
+            ->with(['category' => function ($query) {
+                $query->select('id', 'name');
+            }])
+            ->paginate(6); // 6 dishes per page
+
         return Inertia::render('WebPage/Menu', [
-            'foods' => Food::where('category_id', $category)->select('id', 'name', 'description', 'price', 'image', 'category_id')->get(),
-            'categories' => Category::select('id', 'name', 'description')->get(),
-            'currentCategory' => $category
+            'categories' => $categories,
+            'foods' => $foods,
+            'currentCategory' => $category,
         ]);
     }
 

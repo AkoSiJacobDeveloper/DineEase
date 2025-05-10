@@ -57,7 +57,7 @@
     font-family: 'Rethink_Sans', sans-serif;
 }
 
-.order-container, .reservation-container {
+.order-container {
     border-radius: 8px;
     background: #ffffff;
     box-shadow:  5px 5px 4px #c1c1c1,
